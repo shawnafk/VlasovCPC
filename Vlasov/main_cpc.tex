@@ -31,23 +31,14 @@
 \address[1]{School of Physics, Beihang University, Beijing, Beijing 100191, China}
 \address[2]{Institute for Fusion Studies, The University of Texas, Austin, Texas, 78712, USA}
 \begin{abstract}
-  %what we have done HLE V Solver
   We present a hybrid Eulerian-Lagrangian Vlasov solver for nonlinear resonant wave-particle interactions problems in weakly inhomogeneous magnetic field.
-  %Des: Vlasov system: Hamiltonian 
   The governing Vlasov equation is derived from a recently proposed resonance tracking Hamiltonian method. 
   The method tracks the dynamics of deeply trapped resonant particles in a coherent wave. 
   It gives the evolution of the distribution function with a scale separated Hamiltonian that containing the slowly-varying motion about the resonant frame of reference and fast-varying coherent interactions.
-  %numerical method for V
-  The hybrid method solves the slowly-varying phase space dynamics by Lagrangian method along the resonant trajectory, while manages the fast-varying phase-space evolution in Eulerian grid with an adaptive time step interpolated differential operator scheme.
-  %No numerical method for general wave. since the method is not general at all. only works for narrow-banded wave.
-  %direct use chorus as benchmark. since it is the only successful case, can not even simulate BOT in current framework.
+  The hybrid method solves the slowly-varying phase space dynamics by Lagrangian method along the resonant trajectory, while simultaneously manages the fast-varying phase-space evolution in Eulerian grid with an adaptive time step interpolated differential operator scheme.
   We apply our method to study the frequency chirping problem of whistler mode chorus wave in the Earth magnetosphere and successfully reproduce the chirping chorus wave. 
-  The results are in well agree with previous studies. 
-  % - The code is applied to study the onset of the whistler-mode chorus in the Earth's inner magnetosphere with realistic parameters. It shows the wave growth in both linear and nonlinear stages and accurately gives the nonlinear frequency chirping of the chorus. The code also provides resonant particle phase-space dynamics with high efficiency and resolution. 
-  %+the key for inhomogeneous one, it is ...
-  %+ at least two benifits
-  Aiming at the nonlinear resonant wave-particle interaction in the weakly inhomogeneous regime, our approach can give high resolution for the fast varying phase space at low computational cost.  
-  %abstract word
+  The results in well agree with previous research. 
+  With a focus on nonlinear resonant wave-particle interaction in the weakly inhomogeneous regime, our approach can give high resolution for the fast varying phase space at low computational cost.  
   It could provide additional insights of the wave instabilities and particle energy transfer compared to the conventional Vlasov and particle-in-cell methods.
 \end{abstract}
 %xtend the periodical condition in the resonance frame
