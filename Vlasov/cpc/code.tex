@@ -6,8 +6,8 @@ In our simulation, the energetic electron distribution is bi-Maxwellian at the m
 Moving away from the magnetic equator, the equilibrium distribution maintains the similar form as it does in the phase space by conventional coordinates $(s_i, p_\|, \phi, \varphi)$. The distribution function in new canonical variables is given directly by canonical transfomation in ref \cite{}, and we have 
 \begin{equation}
     \begin{aligned}
-        & f_{i 0}(\xi, \Omega, \vartheta, J) =\frac{\omega_{c e 0}}{(2 \pi)^{3 / 2} v_{t h \perp 0}^2 v_{t h \| 0}} \frac{1}{1-\beta} \cdot \exp \left(-\frac{k_l^2(\Omega+\Pi_i)^2}{2 v_{t h \| 0}^2}\right) \\
-        &\cdot\left(\exp \left(-\frac{(J+\Omega+\Pi_i) \omega_{c e 0}}{v_{t h \perp 0}^2}\right)-\exp \left(-\frac{(J+\Omega+\Pi_i) \omega_{c e 0}}{\beta v_{t h \perp 0}^2}\right)\right)~,
+        & f_{0}(\Omega, \mathcal{J}) =\frac{\omega_{c e 0}}{(2 \pi)^{3 / 2} v_{t h \perp 0}^2 v_{t h \| 0}} \frac{1}{1-\beta} \cdot \exp \left(-\frac{k_l^2(\Omega+\Pi_i)^2}{2 v_{t h \| 0}^2}\right) \\
+        &\cdot\left(\exp \left(-\frac{(\mathcal{J}+\Omega+\Pi_i) \omega_{c e 0}}{v_{t h \perp 0}^2}\right)-\exp \left(-\frac{(\mathcal{J}+\Omega+\Pi_i) \omega_{c e 0}}{\beta v_{t h \perp 0}^2}\right)\right)~,
         \end{aligned}
 \end{equation}
 where $\beta$ is the depth of the loss cone, the subscript $0$ denotes the magnetic equator.
@@ -70,7 +70,7 @@ Benefiting from the scale-separated numerical scheme we set the number of grids 
 In the $\mathcal{J}$ dimension, we employ a delta function, necessitating only a single sampling point for $\mathcal{J}$. In the case of a non-delta distribution, tens of sampling points prove sufficient for $\mathcal{J}$ sampling.
 As to the $\xi,\Omega$ domain, the Eulerian grids are $31 \times 401$ for $\xi \in [0,2\pi]$ and $\Omega \in [-0.1,0.1]$.
 
-The wave is resolved within a reduced-dimensional space, leading to a relatively manageable workload, as is the case with the Lagrangian solver. However, the bottleneck occurs within the Eulerian solver, primarily due to its two-dimensional space, necessitating hundreds of iterations for a single Lagrangian time step for all markers. Nonetheless, the computational cost remains reasonable in comparison to conventional PIC simulations, where the number of sampling points is at least several orders of magnitude greater than in our method. Consequently, their simulations require several billion particles \cite{nogi2022,katoh2016}., but the phase space resolution is significantly lower than ours.
+The wave is resolved within a reduced-dimensional space, leading to a relatively manageable workload, as is the case with the Lagrangian solver. However, the bottleneck occurs within the Eulerian solver, primarily due to its two-dimensional space, necessitating hundreds of iterations for a single Lagrangian time step for all markers. Nonetheless, the computational cost remains reasonable in comparison to conventional PIC simulations, where the number of sampling points is at least several orders of magnitude greater than in our method. Consequently, their simulations require several billion particles \cite{nogi2022,katoh2016}, but the phase space resolution is significantly lower than ours.
 
 \subsection{Benchmarks results}
 The linear physics are quantitatively verified in Fig. \ref{fig.linear}, where we calculate the growth rate and the velocity of the maximum wave amplitude location before nonlinear effects become dominant. In the case of the propagating wave, we determine the trajectory of the wave packet using the integral of the group velocity,

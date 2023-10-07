@@ -2,7 +2,7 @@
 \label{sec:vlasov}
 Consider the  delta $f$ form of Vlasov system in equation (\ref{eq.Vlasov}). The evolution of  perturbed distribution function $\delta f(\vartheta,\mathcal{J};\xi,\Omega;s,t)$ is
 \begin{equation}\label{eq.deltaf}
-    \frac{\partial \delta f}{\partial t}+ \frac{d s_{}}{d t} \frac{\partial \delta f}{\partial s_{}} + \left[\delta f, H\right]_{\vartheta,\mathcal{J}} +  \left[\delta f, H\right]_{\xi,\Omega} = \mathcal{S}~,
+    \frac{\partial \delta f}{\partial t}+ \frac{d s_{}}{d t} \frac{\partial \delta f}{\partial s} + \left[\delta f, H\right]_{\vartheta,\mathcal{J}} +  \left[\delta f, H\right]_{\xi,\Omega} = \mathcal{S}~,
 \end{equation}
 where the   Poisson brackets are defined as
 \begin{equation}
@@ -171,9 +171,9 @@ the values of the perturbed distribution vanish at the $\Omega$ boundaries.
 
 \subsection{The Lagrangian step}
 For the Lagrangian markers,
-the sampling point for $\mathcal{J}$ is chosen to ensure  a uniform sampling to the initial equilibrium distribution,
-\begin{equation}
-    f_0(\mathcal{J}) = l/N_l, 
+the sampling point for $\mathcal{J}$ is chosen to ensure  a uniform sampling to the initial equilibrium distribution $f_0$,
+\begin{equation} 
+    \mathcal{J}_l \to \int^{\mathcal{J}_l} f_0 \mathrm{d}\mathcal{J} = l/N_l~, 
 \end{equation}
 where $N_l$ is the total number of sampling points for $\mathcal{J}$. An illustration is shown in Fig. \ref{fig.uni_grid}(a).
 
