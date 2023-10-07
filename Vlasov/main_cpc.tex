@@ -1,9 +1,6 @@
-%\documentclass{elsarticle}
-%%
 \documentclass[times,12pt,3p,longtitle]{elsarticle}
 \usepackage{makecell}
 
-%%
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -14,11 +11,9 @@
     pdfpagemode=FullScreen,
     }
 
-%% Stylefile to load JCOMP template
-%% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
 \usepackage{latexsym}
-%\journal{Journal of Computational Physics}
+\journal{Journal of Computational Physics}
 \usepackage{amsmath}
 \begin{document}
 
@@ -41,37 +36,22 @@
   With a focus on nonlinear resonant wave-particle interaction in the weakly inhomogeneous regime, our approach can give high resolution for the fast varying phase space at low computational cost.  
   It could provide additional insights of the wave instabilities and particle energy transfer compared to the conventional Vlasov and particle-in-cell methods.
 \end{abstract}
-%xtend the periodical condition in the resonance frame
 \end{frontmatter}
 %\linenumbers
-
 %main text
 \clearpage
-
 %intro the wave and the vlasov
 \input{cpc/intro}
 
-%our numerical scheme begin with the solver of the following deltaf Vlasov system
-%explain the form
-%\input{cpc/theory}
 \input{cpc/vlasov}
 
-%then we sove the following envelope equation 
-%explain the form
-%\input{cpc/methods}
 \input{cpc/wave}
 
-%the details of the code 
-%\input{cpc/results}
 \input{cpc/code}
 
 \input{cpc/conclude}
-
-%\input{cpc/appendix}
 
 \bibliographystyle{model1-num-names}
 \bibliography{nonlinear_cpc}
 
 \end{document}
-
-%%
