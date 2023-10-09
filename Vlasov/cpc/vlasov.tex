@@ -154,14 +154,12 @@ Here the integral of the source term is solved by trapezoidal integration.
 Equations (\ref{eq.disV}), (\ref{eq.line}), and (\ref{eq.area})
 are a set of ordinary differential equations that can be solved  by Runge-Kutta (RK) method.
 %-------------------------------%-------------------------------
-For the boundary conditions, the distribution function 
-in  the resonant frame
-is assumed to be periodic in the phase angle $\xi$,
+For the boundary conditions, the distribution function in  the resonant frame is assumed to be periodic in the phase angle $\xi$,
 \begin{equation}
-    g\left(\xi,\Omega,t\right)=g\left(\xi+2 \pi,\Omega,t\right)
+    g\left(\xi,\Omega,t\right)=g\left(\xi+2 \pi,\Omega,t\right)~.
 \end{equation}
-and
-the values of the perturbed distribution vanish at the $\Omega$ boundaries.
+Note that the periodicity only valid when the resonance not deviate too far from the initial resonance frame of reference given by the most unstable frequency $\omega_l$ and corresponding wave number $k_l$.
+The values of the perturbed distribution vanish at the $\Omega$ boundaries.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/Hybrid_demo.pdf}

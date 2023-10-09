@@ -1,6 +1,6 @@
 \section{Introduction}
 Wave-particle interaction, especially the nonlinear resonant interaction is of great importance and have been extensively discussed in a broad spectrum of plasma physics. 
-In magnetically confined fusion devices, there have Alfv\'en wave instabilities \cite{chen2016,wang2018} which are associated with mode frequency sweeping and lead to premature ejection of alpha particles that deteriorate plasma confinement \cite{fasoli2007}.
+In magnetically confined fusion devices, there have Alfv\'en wave instabilities \cite{chen2016,wang2018,} which are associated with mode frequency sweeping and lead to premature ejection of alpha particles that deteriorate plasma confinement \cite{fasoli2007}.
 In the planetary magnetosphere \cite{tsurutani1974}, as well as in the laboratory devices \cite{vancompernolle2015,vancompernolle2017a}, researchers have studied the chorus wave, which is associated with various geophysical activity like relativistic electron precipitation, X-ray microbursts, pulsating and diffuse auroras \cite{kasahara2018,reeves2013,thorne2013}.
 It has been demonstrated that the nonlinear resonant interaction between toroidal Alfv\'en eigenmodes and fusion-born alpha particles, the energetic electrons and the whistler-mode wave play the key role in these nonlinear instabilities, and therefore it is greatly concerned to build solid and various theoretical descriptions and numerical models to further discuss these wave-particle interactions.
 
@@ -16,10 +16,12 @@ Although, techniques like WKB approximation \cite{wkb} or slowly varying envelop
 Consequently, the rapidly changing temporal and spatial scales come into play across all dimensions of the resonant particle phase space, resulting in a significantly heavier computational workload than in homogeneous plasma settings.
 Also, it becomes clear that traditional methods lack the required precision to describe the nuanced behavior of particles subjected to the nonlinearity imposed by inhomogeneous magnetic fields and chirping waves.
 
-To address these limitations, we have proposed a novel theoretical framework \cite{} that  that redefines the physics within reference frames moving at local resonant velocities.
+To address these limitations, people make efforts to decouple the multiple scale of motion to get a reduced description of the system. 
+For the whistler wave packet propagate in a one dimensional weakly inhomogeneous magnetic field, Karpman et al. \cite{karpman1974} have proposed reduced Vlasov theory in which new integral of motion for the resonant particle is obtianed, and therefore degenerating the original system.
+In our recent work \cite{}, we have proposed a novel theoretical framework that redefines the physics within reference frames moving at local resonant velocities.
 We transcend the stationary phase approximation \cite{spa1,spa2}, and expand the wave phase about the local resonance center, which effectively decoupling the motion scales. 
 This results in the formulation of a new Hamiltonian represented in novel canonical coordinates and momenta.
-The Hamiltonian can be divided into two distinct subspaces.
+The Hamiltonian can be divided into two distinct subspaces, which is similar to Karpman's work but considers self-consistently the variation of both wave number and frequency
 The one is $\xi,~\Omega$ space, corresponding to the fast-varying wave particle interaction terms.
 The other is $\vartheta,~\mathcal{J}$ space, corresponding to the slowly-varying one seen by the resonance frame moving along the resonance trajectory.
 The particle slowly varying scale corresponds to the characteristic length of background plasma inhomogeneity, and the dynamics in $\xi,~\Omega$ subspace can be treated as quasi-periodical in $\xi$ dimension, similar to the behavior in homogeneous plasma settings.
@@ -27,8 +29,7 @@ Base on previous analysis, we formulate the corresponding Vlasov equation for th
 \begin{equation}\label{eq.Vlasov}
     \frac{\partial f}{\partial t}+ \frac{d s_{i}}{d t} \frac{\partial f}{\partial s_{i}} + \left[f, H\right]_{\vartheta,\mathcal{J}} +  \left[f, H\right]_{\xi,\Omega} = 0~,
 \end{equation}
-where the bracket is the canonical Poisson bracket.
-%For such generallized Vlasov form, it can be solved by 
+where the bracket is the canonical Poisson bracket. 
 
 The above Vlasov equation consists of two separated motions, each of which is solved individually using a hybrid method.
 Here we consider a delta $f$ Vlasov solver based on an elaborated hybrid Eulerian-Lagrangian (HEL) method for solving system of this general form \cite{shiroto2022}.
