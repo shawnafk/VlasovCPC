@@ -1,9 +1,0 @@
-\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{The\040Hybrid\040Eulerian-Lagrangian\040Solver\040for\040the\040Vlasov\040system}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{The\040Eulerian\040step}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{The\040Lagrangian\040step}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Wave\040Equation}{}% 5
-\BOOKMARK [1][-]{section.4}{Benchmark\040Results\040for\040the\040Onset\040of\040Rising\040Tone\040Chorus}{}% 6
-\BOOKMARK [2][-]{subsection.4.1}{Simulation\040configuration}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.2}{Benchmarks\040results}{section.4}% 8
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 9
