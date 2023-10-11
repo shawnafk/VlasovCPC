@@ -1,14 +1,15 @@
 \section{Introduction}
 Wave-particle interaction, especially the nonlinear resonant interaction, is of great importance and have been extensively discussed in a broad spectrum of plasma physics. 
-In magnetically confined fusion devices, there have Alfv\'en wave instabilities \cite{chen2016,wang2018} which are associated with mode frequency sweeping and lead to premature ejection of alpha particles that deteriorate plasma confinement \cite{fasoli2007}.
+In magnetically confined fusion devices, there have Alfv\'en wave instabilities \cite{chen2016,wang2018,wang2012,wang2012a} which are associated with mode frequency sweeping and lead to premature ejection of alpha particles that deteriorate plasma confinement \cite{fasoli2007}.
 In the planetary magnetosphere \cite{tsurutani1974}, as well as in the laboratory devices \cite{vancompernolle2015,vancompernolle2017a}, researchers have studied the chorus wave, which is associated with various geophysical activity like relativistic electron precipitation, X-ray microbursts, pulsating and diffuse auroras \cite{kasahara2018,reeves2013,thorne2013}.
-It has been demonstrated that the nonlinear resonant interaction between toroidal Alfv\'en eigenmodes and fusion-born alpha particles, the energetic electrons and the whistler-mode wave play the key role in these nonlinear instabilities, and therefore it is greatly concerned to build solid and various theoretical descriptions and numerical models to further discuss these wave-particle interactions.
+It has been demonstrated that the nonlinear resonant interaction between toroidal Alfv\'en eigenmodes and fusion-born alpha particles, the energetic electrons and the whistler-mode wave play the key role in these nonlinear instabilities.
+Numerical models such as particle-in-cell \cite{chen2015a,xiao2013variational,xiao2020explicit,Xiao2015,xiao2018structure}, and ray tracing \cite{xie2022} can be applied to study these wave-particle interactions and wave propagation. 
+However, more generally, the wave-particle interactions can be described by the Vlasov equation self-consistently coupled with the wave evolution.
+The corresponding direct Vlasov solver provides higher resolution to the original system. 
 
-In general, the wave-particle interactions can be described by the Vlasov equation and self-consistently coupled with the wave evolution. 
-In the homogeneous plasmas \cite{lilley2009,breizman2010} or in the nonuniform regime with spatial symmetry \cite{hezaveh2017,hezaveh2020,hezaveh2021}, the involved wave can be treated as standing wave with stationary fixed wavenumber or mode number. 
+For the homogeneous plasmas \cite{lilley2009,breizman2010} or in the nonuniform regime with spatial symmetry \cite{hezaveh2017,hezaveh2020,hezaveh2021}, such consideration is relatively simple.
+The involved wave can be treated as standing wave with stationary fixed wavenumber or mode number. 
 In such cases, the interactions are confined to the periodical localized regions. Consequently, kinetic simulations in these scenarios become notably straightforward, benefiting from the inherent periodicity of the system. These simulations primarily entail the examination of momentum space within a local spatial volume, effectively addressing a single-scale wave-particle interaction problem, thus rendering them highly amenable to numerical solutions.
-
-
 However, when dealing with inhomogeneous scenarios where periodicity no longer holds, the complexity significantly escalates. Even weak inhomogeneity can break the periodicity and significantly modify the nonlinear wave-particle interaction.
 The nonuniform spatial dependence brings extra dimensions on both the wave evolution and the fine structures of resonance particle phase space.
 The interaction have to be considered on the whole domain instead of in a single spatial volume.
