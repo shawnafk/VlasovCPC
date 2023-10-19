@@ -93,22 +93,36 @@ The results show the correctness of our simulation at linear stage.
     \label{fig.linear}
 \end{figure}
 
-In the nonlinear stage, trapped electrons form a phase space hole in $\xi-\Omega$. This phase space hole contributes to the nonlinear current, which in turn triggers the nonlinear frequency-chirping chorus wave \cite{omura2008}. The shape of the hole, specifically its boundary, can be analytically described as follows:
-\begin{equation}\label{eq.Omega_b}
-    \Omega(\xi) = \pm \frac{\omega_b}{k^2} \sqrt{2 (e_{spx}-\cos \xi - \alpha \xi)}
-\end{equation}
-where $e_{spx}$ is the particle energy on the separatrix, $k$ is the wave number and $\omega_b\equiv \sqrt{k^2 v_\perp a}$ is the trapped particle bounce frequency.
-The parameter is the inhomogeneity ratio \cite{omura2008,tao2020}
+In the nonlinear stage, trapped electrons form a phase space hole in $\xi-\Omega$. This phase space hole contributes to the nonlinear current, which in turn triggers the nonlinear frequency-chirping chorus wave. 
+%The Hamiltonian for the resonant electrons has the form \cite{}
+%\begin{equation}
+%H = \frac{k^2\Omega^2}{2} + \frac{\omega_b^2}{k^2}\left(\cos \xi + \alpha \xi \right)~,
+%\end{equation}
+For the trapped electrons, it fells an osillatory force from the wave and a noninertial force from background inhomogeneity. The forces can be described by a potential well with the form $\sin \xi + \alpha \xi$, with parameter $\alpha$ as an inhomogeneity ratio \cite{omura2008,tao2020}
 \begin{equation}\label{eq.alp}
     \alpha \equiv \frac{1}{\omega_{b}^2}\left[\left(1 - 2\frac{v_r}{v_g}\right)\frac{\partial \omega}{\partial t}  -v_r^2 \frac{\partial k}{\partial s}+ \frac{\mathrm{\partial} \omega_{ce}}{\mathrm{\partial} s}\frac{k_i}{m_e}\mathcal{J}\right].
 \end{equation}
+From the potential well, we can find the X point of the phase space trajectory, i.e., the inflection point of the potential well
+\begin{equation}
+    \xi_\mathrm{x} = - \arcsin \alpha,
+\end{equation}
+and the C point of the trajectory is obtained from the energy on the separatrix $e_\mathrm{spx} = \sin \xi_\mathrm{x} + \alpha \xi_\mathrm{x}$,
+\begin{equation}
+    \sin \xi_\mathrm{c} + \alpha \xi_\mathrm{c} = e_\mathrm{spx}.
+\end{equation}
+The shape of the hole, specifically its boundary, can be analytically described as follows \cite{omura2008}:
+\begin{equation}\label{eq.Omega_b}
+    \Omega(\xi) = \pm \frac{\omega_b}{k^2} \sqrt{2 (e_\mathrm{spx}-\cos \xi - \alpha \xi)}~,
+\end{equation}
+where $k$ is the wave number and $\omega_b\equiv \sqrt{k^2 v_\perp a}$ is the trapped particle bounce frequency and
+
 
 In Fig.~\ref{fig.hole}, we present a typical electron phase-space hole observed at a specific location $s$ in the late nonlinear stage. We determined the corresponding values of $k \simeq 0.649$, $\omega_b \simeq 0.007$, $\alpha \simeq 0.08$ based on the simulation data at that location. Additionally, we illustrated the boundary of the hole using the equation (\ref{eq.Omega_b}). Notably, the shape of the hole closely aligns with the theoretical predictions.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/fig_hole.pdf}
-    \caption{Phase-space hole formed by trapped electrons in the wave field. The size and location of the hole, i.e., the X, C points, and the boundary, are determined from the nonlinear theory.}
+    \caption{Phase-space hole  formed by trapped electrons at $s\simeq 2107$ in the wave field. The X, C points on the left and right ends and the boundary of the hole are obtained from theory.}
     \label{fig.hole}
 \end{figure}
 
