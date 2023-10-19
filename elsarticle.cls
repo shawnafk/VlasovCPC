@@ -1,4 +1,5 @@
 %%
+%%
 %% This is file `elsarticle.cls',
 %% generated with the docstrip utility.
 %%
