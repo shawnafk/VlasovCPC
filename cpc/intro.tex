@@ -17,58 +17,66 @@ Although, techniques like WKB approximation \cite{wkb} or slowly varying envelop
 Consequently, the rapidly changing temporal and spatial scales come into play across all dimensions of the resonant particle phase space, resulting in a significantly heavier computational workload than in homogeneous plasma settings.
 Also, it becomes clear that traditional methods lack the required precision to describe the nuanced behavior of particles subjected to the nonlinearity imposed by inhomogeneous magnetic fields and chirping waves.
 
-To address these limitations, people make efforts to decouple the multiple scale of motion to get a reduced description of the system. 
-For the whistler wave packet propagate in a one dimensional weakly inhomogeneous magnetic field, Karpman et al. \cite{karpman1974} have proposed reduced Vlasov theory in which a new integral of motion for the resonant particle is obtained, and therefore degenerating the original system.
-In our recent work \cite{zheng2023a}, we have proposed a novel theoretical framework that redefines the physics within reference frames moving at local resonant velocities.
-We transcend the stationary phase approximation \cite{spa1,spa2}, and expand the wave phase about the local resonance center, which effectively decoupling the motion scales. 
-This results in the formulation of a new Hamiltonian represented in novel canonical coordinates and momenta.
-The Hamiltonian can be divided into two distinct subspaces, which is similar to Karpman's work but considers self-consistently the variation of both wave number and frequency
-The one is $\xi,~\Omega$ space, corresponding to the fast-varying wave particle interaction terms.
-The other is $\vartheta,~\mathcal{J}$ space, corresponding to the slowly-varying one seen by the resonance frame moving along the resonance trajectory. 
-The particle slowly varying scale corresponds to the characteristic length of background plasma inhomogeneity, and the dynamics in $\xi,~\Omega$ subspace can be treated as quasi-periodical in $\xi$ dimension, similar to the behavior in homogeneous plasma settings.
-Base on previous analysis, we formulate the corresponding Vlasov equation for the resonance particle distribution function $f(t,s_i,\vartheta,\mathcal{J},\xi,\Omega)$. The equation is readily constructed as an advective form of two separated Hamiltonian flows and the advective term of reference frame moving along resonance trajectories.
-\begin{equation}\label{eq.Vlasov}
-    \frac{\partial f}{\partial t}+ \frac{d s_{i}}{d t} \frac{\partial f}{\partial s_{i}} + \left[f, H\right]_{\vartheta,\mathcal{J}} +  \left[f, H\right]_{\xi,\Omega} = 0~,
-\end{equation}
-where the bracket is the canonical Poisson bracket. 
-
-The above Vlasov equation consists of two separated motions, each of which is solved individually using a hybrid method.
-Here we consider a delta $f$ Vlasov solver based on an elaborated hybrid Eulerian-Lagrangian (HEL) method for solving system of this general form \cite{shiroto2022}.
-The Vlasov system is coupled to the slowly varying wave envelope equation in the resonance frame. 
+ To address these limitations, %people make efforts 
+it is critical
+ to decouple the multiple scales of motion to get a reduced description of the system. 
+% For the whistler wave packet propagating in a  weakly inhomogeneous magnetic field, Karpman et al. \cite{karpman1974} have proposed a reduced Vlasov theory in which a new integral of motion for the resonant particle is obtained, and therefore degenerating the original system.
+% In our recent work , we have proposed a novel theoretical framework that redefines the physics within
+%We transcend the stationary phase approximation \cite{spa1,spa2}, and expand 
+Recently, a Hamiltonian formulation 
+ using the canonical coordinates and momenta
+is developed in the reference frames moving at local resonant velocities \cite{zheng2023a}.
+The wave phase is expanded about the local resonance center, which effectively decouples  the multiple scales.
+The Hamiltonian consists of 
+%can be divided into two distinct subspaces, which is similar to Karpman's work but considers self-consistently the variation of both wave number and frequency The one is $\xi,~\Omega$ space, corresponding to 
+the fast-varying wave particle interaction terms
+and 
+%The other is $\vartheta,~\mathcal{J}$ space, corresponding to 
+the slowly-varying terms in the resonance frame moving along the resonance trajectory. 
+The particle slowly varying scale corresponds to the characteristic length of background plasma inhomogeneity, and the angle variable in the fast varying dynamics %in $\xi,~\Omega$ subspace 
+can be treated as quasi-periodic,
+% in $\xi$ dimension, 
+similar to the treatment in a homogeneous plasma.
+% Base on previous analysis, we formulate the corresponding Vlasov equation for the resonance particle distribution function $f(t,s_i,\vartheta,\mathcal{J},\xi,\Omega)$. The equation is readily constructed as an advective form of two separated Hamiltonian flows and the advective term of reference frame moving along resonance trajectories.
+% \begin{equation}\label{eq.Vlasov}
+%     \frac{\partial f}{\partial t}+ \frac{d s_{i}}{d t} \frac{\partial f}{\partial s_{i}} + \left[f, H\right]_{\vartheta,\mathcal{J}} +  \left[f, H\right]_{\xi,\Omega} = 0~,
+% \end{equation}
+% where the bracket is the canonical Poisson bracket. 
+%The Vlasov equation consists of two separated motions, each of which is solved individually using a hybrid method.
+Here we consider a delta $f$ Vlasov solver based on a hybrid Eulerian-Lagrangian (HEL) method  \cite{shiroto2022} for solving the scale separated Vlasov system.
 %detailed steps and benifits
-In our numerical scheme, the entire system is solved through a series of four distinct steps.
-Firstly, we apply a conservative form Interpolated Differential Operator (IDO-CF)  method to the Eulerian grid to solve the evolution in $\xi,~\Omega$ domain, it provides high resolution, allowing us to identify and track the formation and evolution of resonant structures arising from the rapidly changing wave-particle interactions.
-Secondly, the perturbed current is then integrated from the perturbed distribution function with local equilibrium quantities.
-Thirdly, the trajectory of Lagrangian markers sampled in slowly varying domain are solved by Runge-Kutta (RK) method, 
-Subsequently, we update the perturbed distribution on the new marker coordinates. It's worth noting that we employ an adaptive time step RK solver in the Eulerian part to bridge the gap in time steps between the $\xi, \Omega$ and $s, \vartheta, \mathcal{J}$ domains.
-Finally, after completing the particle solver, we couple the current to the wave equation and evolve the wave to the next time step.
-We derive both first and second-order wave equation forms, which we solve using the RK method and an implicit upwind scheme.
-
-We use the frequency chirping phenomenon of whistler wave in the Earth magnetosphere as a benchmark.
-The results obtained provide the linear growth rate, which aligns closely with theoretical predictions, validating the accuracy of our simulations.
-Additionally, we present the presence of trapped particle phase space holes and compare them with the theoretical results, further affirming the robustness of our simulation, even at the nonlinear stage.
+%In our numerical scheme, the entire system is solved through a series of four distinct steps.
+In the first step,  a conservative form Interpolated Differential Operator (IDO)  method is applied to the Eulerian grid 
+and  an adaptive time step Runge-Kutta (RK)  solver is used to solve the  fast varying dynamics in  phase space. 
+This provides high resolution simulation of 
+the formation and evolution of resonant structures arising from the rapidly changing wave-particle interactions.
+%, allowing us to identify and track 
+The perturbed current is then integrated from the perturbed distribution function with local equilibrium quantities.
+In the second step, the  Lagrangian markers are sampled in slowly varying domain 
+and 
+the trajectory of markers
+are solved by the RK method.
+Subsequently,  the perturbed distribution is updated on the new marker coordinates. 
+%It's worth noting that we employ an adaptive time step RK solver in the Eulerian part to bridge the gap in time steps between the $\xi, \Omega$ and $s, \vartheta, \mathcal{J}$ domains.
+Finally, after completing the particle solver, 
+the Vlasov system is coupled to the wave equation in the resonance frame through the perturbed current.
+% to the wave equation and
+We evolve the  slowly varying wave envelope 
+to the next time step
+with the second-order  wave equation
+using the RK method.
+The first-order wave equation is also solved with 
+ an implicit upwind scheme.
+The nonlinear resonant interaction between frequency chirping  chorus wave and energetic electrons in the Earth's magnetosphere is used as a benchmark for our simulation scheme.
+%The results obtained provide the linear growth rate, which aligns closely with theoretical predictions, validating the accuracy of our simulations.
+%Additionally, we present the presence of trapped particle phase space holes and compare them with the theoretical results, further affirming the robustness of our simulation, even at the nonlinear stage.
 %benchmark
-By incorporating advanced numerical techniques and a more comprehensive understanding of the magnetic field variations, we endeavor to uncover the elusive fine structure of resonant particles. This endeavor holds the potential to revolutionize our comprehension of the intricate interplay between waves and particles within inhomogeneous magnetic fields.
+%By incorporating advanced numerical techniques and a more comprehensive understanding of the magnetic field variations, we endeavor to uncover the elusive fine structure of resonant particles. This endeavor holds the potential to revolutionize our comprehension of the intricate interplay between waves and particles within inhomogeneous magnetic fields.
 
 %simulation details
-We organized our paper as follows. In section~\ref{sec:vlasov}, we present the HEL theory for our scale separated Vlasov system and introduce the IDO-CF numerical scheme. In section~\ref{sec:wave}, we present the details of the numerical modeling on the wave slowly varying envelope. Section~\ref{sec:code} provides a detailed description on our code design and implementations. Finally, the conclusion is provided in section~\ref{sec:end}.
+The paper is  organized  as follows. 
+ In section~\ref{sec:vlasov}, we present 
+ the HEL scheme for the scale separated Vlasov system.
+ % and introduce the IDO-CF numerical scheme. 
+ In section~\ref{sec:wave}, we present  the numerical method for solving the slowly varying  wave envelope. Section~\ref{sec:code} provides a detailed benchmark of the simulation code. Finally, the conclusion is provided in section~\ref{sec:end}.
 
-% Before introducing our numerical scheme, we first show the normalization for the equations. 
-% The original equations in our previous studies are written in Gaussian unit.
-% %The normalization for the next numerical scheme is given in Tab. (\ref{tab.units}).
-%\begin{table}\label{tab.units}
-%    \centering
-%    \caption{\newline The basic normalization units.\newline}
-%    \begin{tabular}{llll}
-%    \hline
-%     Mass  & Charge & velocity & Time \\
-%     \hline
-%     $m_e$ & $e$ & $c$ & $\omega_{pe}^{-1}$ \\
-%     \hline
-%    \end{tabular}\\
-%\end{table}
-% Here we use electron mass $m_e$, electron charge $e$, speed of light $c$ and background electron plasma frequency $\omega_{pe}$ to normalize mass, charge, velocity and time. Other units for quantities like momentum $\mathcal{J}$ and vector potential $A$ can be derived from the related governing equations as:
-% \begin{equation}
-%     [A]: \frac{m_e c^2}{e}, \quad[\mathcal{J}]: \frac{m_e c^2}{\omega_{pe}}~.
-% \end{equation}
-% The physical constants are now eliminated in the normalized equations.

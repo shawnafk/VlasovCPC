@@ -1,6 +1,8 @@
 \section{The Hybrid Eulerian-Lagrangian Solver for the Vlasov system}
 \label{sec:vlasov}
-Consider the  delta $f$ form of Vlasov system in equation (\ref{eq.Vlasov}). The evolution of  perturbed distribution function $\delta f(\vartheta,\mathcal{J};\xi,\Omega;s,t)$ is
+For the Hamiltonian formulation 
+ in the reference frames moving at local resonant velocities \cite{zheng2023a},
+ the evolution of  perturbed distribution function $\delta f(\vartheta,\mathcal{J};\xi,\Omega;s,t)$ is
 \begin{equation}\label{eq.deltaf}
     \frac{\partial \delta f}{\partial t}+ \frac{d s}{d t} \frac{\partial \delta f}{\partial s} + \left[\delta f, H\right]_{\vartheta,\mathcal{J}} +  \left[\delta f, H\right]_{\xi,\Omega} = \mathcal{S}~,
 \end{equation}
@@ -36,7 +38,7 @@ Then the evolution equation for $g_{k,l}(t,\xi,\Omega)$ for each marker labeled 
 \end{equation}
 Here we omit the index $k$ and $l$ of $g$ for convenience.
 
-In the Lagrangian step, it is essential for the marker to move in tandem with the resonance frame throughout the spatial domain, i.e.,
+In the Lagrangian step, it is essential for the marker to move  with the resonance frame throughout the spatial domain, i.e.,
 \begin{equation}\label{eq.resonance}
         \dot{s}_k = v_r(s_k(t))~,
 \end{equation}
@@ -49,7 +51,7 @@ The motion equation for slowly varying coordinate $\mathcal{J}$ is
 \end{equation}
 
 \subsection{The Eulerian step}
-Now we solve the fast-varying phase space dynamics for each Lagrangian at $s_k,\mathcal{J}_l$.
+We first solve the fast-varying phase space dynamics for each Lagrangian marker at $s_k,\mathcal{J}_l$.
 For the numerical treatment, the Vlasov equation (\ref{eq.Euler}) is expressed as
 \begin{equation}\label{eq.Euler2}
     \frac{\partial g}{\partial t} + m \frac{\partial  g}{\partial \xi} - n \frac{\partial  g}{\partial \Omega}= \mathcal{S}~,
@@ -59,26 +61,29 @@ where
         m(\xi,\Omega) = \frac{\partial H}{\partial \Omega},~ n(\xi,\Omega) = \frac{\partial H}{\partial \xi}~.
 \end{equation}
 To achieve high-order accuracy, we apply the IDO method \cite{imadera2009} to solve the 2D Vlasov equation in $\xi,\Omega$ domain.
-The IDO scheme applies the polynomial as local interpolation functions to replace the distributions along each coordinate in phase space. 
-Here a second-order  polynomial is used as interpolation stencil for a function $g(x)$ from $x_i$ to $x_{i+1}$,
-\begin{equation}\label{eq.intg}
-    G(x,g_{i},g_{i+1},\sigma_{i+\frac{1}{2}}) = a\left(x-x_i\right)^2+b\left(x-x_i\right)+c~,
-\end{equation}
-where $g_i \equiv g(x_i)$, $g_{i+1} \equiv g(x_{i+1})$ are function values on the grid, and $\sigma_{i+\frac{1}{2}}$ is the cell integral value 
-\begin{equation}
-    \sigma_{i+\frac{1}{2}} \equiv \int_{x_i}^{x_{i+1}} g(x)~\mathrm{d}x~,
-\end{equation}
-and the coefficients are determined and from the grid value and the line integral over the cell,
-\begin{equation}
-    \begin{aligned}
-        a & =\frac{3\left(g_i+g_{i+1}\right)}{\Delta x^2}-\frac{6 \sigma_{i+\frac{1}{2}}}{\Delta x^3}~, \\
-        b & =-\frac{2\left(2 g_i+g_{i+1}\right)}{\Delta x}+\frac{6 \sigma_{i+\frac{1}{2}}}{\Delta x^2}~, \\
-        c & = g_i~.
-    \end{aligned}
-\end{equation}
-
-For equation (\ref{eq.Euler2}), the derivatives of $g$ with respect to $\xi$ and $\Omega$ are numerically represented by the interpolating stencil introduced above. 
-The discretized form of the Vlasov equation becomes,
+%The IDO scheme applies the polynomial as local interpolation functions to replace the distributions along each coordinate in phase space. 
+% Here a second-order  polynomial is used as interpolation stencil for a function $g(x)$ from $x_i$ to $x_{i+1}$,
+% \begin{equation}\label{eq.intg}
+%     G(x,g_{i},g_{i+1},\sigma_{i+\frac{1}{2}}) = a\left(x-x_i\right)^2+b\left(x-x_i\right)+c~,
+% \end{equation}
+% where $g_i \equiv g(x_i)$, $g_{i+1} \equiv g(x_{i+1})$ are function values on the grid, and $\sigma_{i+\frac{1}{2}}$ is the cell integral value 
+% \begin{equation}
+%     \sigma_{i+\frac{1}{2}} \equiv \int_{x_i}^{x_{i+1}} g(x)~\mathrm{d}x~,
+% \end{equation}
+% and the coefficients are determined and from the grid value and the line integral over the cell,
+% \begin{equation}
+%     \begin{aligned}
+%         a & =\frac{3\left(g_i+g_{i+1}\right)}{\Delta x^2}-\frac{6 \sigma_{i+\frac{1}{2}}}{\Delta x^3}~, \\
+%         b & =-\frac{2\left(2 g_i+g_{i+1}\right)}{\Delta x}+\frac{6 \sigma_{i+\frac{1}{2}}}{\Delta x^2}~, \\
+%         c & = g_i~.
+%     \end{aligned}
+% \end{equation}
+%For equation (\ref{eq.Euler2}), 
+The derivatives of $g$ with respect to $\xi$ and $\Omega$ are then approximated by 
+the derivatives of 
+a second-order  polynomial $G$ \cite{imadera2009}. 
+%numerically represented by the interpolating stencil introduced above. 
+The discretized form of the Vlasov equation (\ref{eq.Euler2}) becomes
 \begin{equation}\label{eq.disV}
     \begin{aligned}
     \left.\frac{\partial g}{\partial t}\right|_{i,j}   & =  - m_{i,j} \left.\frac{\partial}{\partial \xi} G\left(\xi;g_{i,j},g_{i+1,j},\rho_{i+\frac{1}{2},j}\right)\right|_{i,j} 
@@ -88,78 +93,88 @@ The discretized form of the Vlasov equation becomes,
     & +  \mathcal{S}_{i,j}~,
     \end{aligned}
 \end{equation}
-where $i$ and $j$ are the grid index for $\xi$ and $\Omega$, respectively. 
-The grid and the sampling points are demonstrated in Fig.~\ref{fig.grids}.
+where $G$ is a second-order  polynomial, $g_{i,j} $ are function values on the grid,  
+$\rho_{i+\frac{1}{2},j}=\int_{\xi_i}^{\xi_{i+1}}g_{j}(\xi)\mathrm{d}\xi$ and $\kappa_{i,j+\frac{1}{2}}=\int_{\Omega_j}^{\Omega_{j+1}}g_{i}(\Omega)\mathrm{d}\Omega$
+%$\rho_{i+\frac{1}{2},j}$ and $\kappa_{i,j+\frac{1}{2}}$ 
+are the integrated function values over the grid.
+Here $i$ and $j$ denote the grid index for $\xi$ and $\Omega$, respectively. 
+The grid and interpolation are demonstrated in Fig.~\ref{fig.grids}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.3]{cpc_img/IDO.pdf}
-    \caption{The interpolating functions and cell integrated values in $\xi,\Omega$ domain.}
+    \caption{The interpolating functions and  integrated values in $\xi,\Omega$ domain.}
     \label{fig.grids}
 \end{figure}
-
-The interpolation relies on the line integrated values $\rho_{i+\frac{1}{2},j}=\int_{\xi_i}^{\xi_{i+1}}g_{j}(\xi)\mathrm{d}\xi$ and $\kappa_{i,j+\frac{1}{2}}=\int_{\Omega_j}^{\Omega_{j+1}}g_{i}(\Omega)\mathrm{d}\Omega$.
+%The interpolation relies on the line integrated values 
 %The calculation at this step relies upon $\rho_{i+\frac{1}{2},j}$ and $\kappa_{i,j+\frac{1}{2}}$, which are the line integrated value of $\mathcal{F}$ 
-To solve the integral value $\rho$ and $\kappa$, we consider the Eq.~(\ref{eq.Euler2}) on given $j$ and $i$ grid respectively, and integrate it along $\xi$ and $\Omega$ over the grid interval, which yields the time evolution of the integral values
+%To solve the integral value $\rho$ and $\kappa$, we consider the  on given $j$ and $i$ grid respectively, and 
+Integrating Eq.~(\ref{eq.Euler2}) along $\xi$ and $\Omega$ over the grid interval  yields the time evolution of the integral values \cite{imadera2009}
 %, accroding to the definition in Eq.~(\ref{eq.intg}). The time evolution of the integral value is derived from the Vlasov equation,
 \begin{equation}\label{eq.line}
     \begin{aligned}
-    \left.\frac{\partial \rho}{\partial t}\right|_{i+\frac{1}{2},j} &= \int_{\xi_i}^{\xi_{i+1}}[ - m_j(\xi) \left.\frac{\partial g}{\partial \xi}\right|_{j}(\xi) + n_j(\xi) \left.\frac{\partial g}{\partial \Omega}\right|_{j}(\xi) + \mathcal{S}_j(\xi)]~\mathrm{d} \xi
+    \left.\frac{\partial \rho}{\partial t}\right|_{i+\frac{1}{2},j} &= \int_{\xi_i}^{\xi_{i+1}}[ - m_j(\xi) \left.\frac{\partial g}{\partial \xi}\right|_{j}(\xi) + n_j(\xi) \left.\frac{\partial g}{\partial \Omega}\right|_{j}(\xi) + \mathcal{S}_j(\xi)]~\mathrm{d} \xi,
     \\
     \left.\frac{\partial \kappa}{\partial t}\right|_{i,j+\frac{1}{2}}
-    &= \int_{\Omega_j}^{\Omega_{j+1}}[ - m_i(\Omega) \left.\frac{\partial g}{\partial \xi}\right|_{i}(\Omega) + n_i(\Omega) \left.\frac{\partial g}{\partial \Omega}\right|_{i}(\Omega) + \mathcal{S}_i(\Omega)]~\mathrm{d} \Omega
+    &= \int_{\Omega_j}^{\Omega_{j+1}}[ - m_i(\Omega) \left.\frac{\partial g}{\partial \xi}\right|_{i}(\Omega) + n_i(\Omega) \left.\frac{\partial g}{\partial \Omega}\right|_{i}(\Omega) + \mathcal{S}_i(\Omega)]~\mathrm{d} \Omega.
     \end{aligned}
 \end{equation}
 %Then, enters step 2, solve Eq.~(\ref{eq.line})
-%In the above integrals on the right-hand-side, 
-We apply the third-order central interpolation scheme to approximate the functions $m$ and $n$ along the $\xi$ and $\Omega$ dimension and use the interpolating stencil again to approximate the derivatives, 
+%In the above integrals on the right-hand-side, We apply 
+The third-order central interpolation scheme is applied to approximate the functions $m$ and $n$ along the $\xi$ and $\Omega$ dimension and the interpolating stencil is used to approximate the derivatives, 
 \begin{equation}
     \begin{aligned}
        \left.\frac{\partial g}{\partial \xi}\right|_{j}(\xi)
-        &\simeq G\left(\xi;\left.\frac{\partial g}{\partial \xi}\right|_{i,j},\left.\frac{\partial g}{\partial \xi}\right|_{i+1,j},g_{i+1,j}-g_{i,j}\right)
+        &\simeq G\left(\xi;\left.\frac{\partial g}{\partial \xi}\right|_{i,j},\left.\frac{\partial g}{\partial \xi}\right|_{i+1,j},g_{i+1,j}-g_{i,j}\right),
         \\
         \left.\frac{\partial g}{\partial \Omega}\right|_{j}(\xi)
-         &\simeq G\left(\xi;\left.\frac{\partial g}{\partial \Omega}\right|_{i,j},\left.\frac{\partial g}{\partial \Omega}\right|_{i+1,j},    \left.\frac{\partial \rho}{\partial \Omega}\right|_{i+\frac{1}{2},j}\right)
+         &\simeq G\left(\xi;\left.\frac{\partial g}{\partial \Omega}\right|_{i,j},\left.\frac{\partial g}{\partial \Omega}\right|_{i+1,j},    \left.\frac{\partial \rho}{\partial \Omega}\right|_{i+\frac{1}{2},j}\right),
          \\
          \left.\frac{\partial g}{\partial \Omega}\right|_{i}(\Omega) 
-     &\simeq G\left(\Omega;\left.\frac{\partial g}{\partial \Omega}\right|_{i,j},\left.\frac{\partial g}{\partial \Omega}\right|_{i,j+1},g_{i,j+1}-g_{i,j}\right)\\
+     &\simeq G\left(\Omega;\left.\frac{\partial g}{\partial \Omega}\right|_{i,j},\left.\frac{\partial g}{\partial \Omega}\right|_{i,j+1},g_{i,j+1}-g_{i,j}\right),\\
          \left.\frac{\partial g}{\partial \xi}\right|_{i}(\Omega) 
-  &\simeq G\left(\Omega;\left.\frac{\partial g}{\partial \xi}\right|_{i,j},\left.\frac{\partial g}{\partial \xi}\right|_{i,j+1},\left.\frac{\partial \kappa}{\partial \xi}\right|_{i,j+\frac{1}{2}}\right)
+  &\simeq G\left(\Omega;\left.\frac{\partial g}{\partial \xi}\right|_{i,j},\left.\frac{\partial g}{\partial \xi}\right|_{i,j+1},\left.\frac{\partial \kappa}{\partial \xi}\right|_{i,j+\frac{1}{2}}\right),
     \end{aligned}
 \end{equation}
 %The interpolations bring new dependence on intergral value $\rho_{\Omega;i+\frac{1}{2},j}$ and $\kappa_{\xi;i,j+\frac{1}{2}}$. Therefore, 
-We apply additional interpolation functions to approximate 
+%We apply additional interpolation functions to approximate 
 %$\rho$ along $\Omega$ and $\kappa$ along $\xi$ to calculate its 
-the derivatives
+where 
+%the derivatives
 \begin{equation}
     \begin{aligned}
     \left.\frac{\partial \rho}{\partial \Omega}\right|_{i+\frac{1}{2},j}
     &\simeq \left.\frac{\partial}{\partial \Omega} G(\Omega;\rho_{i+\frac{1}{2},j},\rho_{i+\frac{1}{2},j+1}, M_{i+\frac{1}{2},j+\frac{1}{2}})\right|_{i+\frac{1}{2},j}~, \\
     \left.\frac{\partial \kappa}{\partial \xi}\right|_{i,j+\frac{1}{2}}
- &\simeq \left.\frac{\partial}{\partial \xi} G(\xi;\kappa_{i,j+\frac{1}{2}},\kappa_{i+1,j+\frac{1}{2}}, M_{i+\frac{1}{2},j+\frac{1}{2}})\right|_{i,j+\frac{1}{2}}~,
+ &\simeq \left.\frac{\partial}{\partial \xi} G(\xi;\kappa_{i,j+\frac{1}{2}},\kappa_{i+1,j+\frac{1}{2}}, M_{i+\frac{1}{2},j+\frac{1}{2}})\right|_{i,j+\frac{1}{2}}~.
     \end{aligned}
 \end{equation} 
 %the interpolations rely both on 
-where the surface integral $M_{i+\frac{1}{2},j+\frac{1}{2}}=\int_{\xi_i}^{\xi_{i+1}}\int_{\Omega_j}^{\Omega_{j+1}}g(t,\xi,\Omega)d\xi d\Omega$.
+%where the surface integral 
 % and it can be readily transformed to the loop integral 
-The time evolution of this surface integral according to the Stokes theorem is given by
+The time evolution of the surface integral $M_{i+\frac{1}{2},j+\frac{1}{2}}=\int_{\xi_i}^{\xi_{i+1}}\int_{\Omega_j}^{\Omega_{j+1}}g(t,\xi,\Omega)d\xi d\Omega$
+% according to the Stokes theorem 
+is given by \cite{imadera2009}
 \begin{equation}\label{eq.area}
     \begin{aligned}
          \left.\frac{\partial M}{\partial t}\right|_{i+\frac{1}{2},j+\frac{1}{2}}
          &= \int_{\xi_i}^{\xi_{i+1}} n_{j+1}(\xi) g_{j+1}(\xi)~\mathrm{d}\xi - \int_{\Omega_j}^{\Omega_{j+1}} m_{i+1}(\Omega) g_{i+1} (\Omega)~\mathrm{d} \Omega \\
         & - \int_{\xi_i}^{\xi_{i+1}} n_{j}(\xi) g_{j}(\xi)~\mathrm{d}\xi + \int_{\Omega_j}^{\Omega_{j+1}} m_{i}(\Omega) g_{i} (\Omega) \mathrm{d}\Omega \\
-        &+ \iint \mathcal{S}(\xi,\Omega)~\mathrm{d}\xi\mathrm{d}\Omega~.
+        &+ \iint \mathcal{S}(\xi,\Omega)~\mathrm{d}\xi\mathrm{d}\Omega~,
     \end{aligned}
 \end{equation}
-Here the integral of the source term is solved by trapezoidal integration.
+where the integral of the source term is solved by trapezoidal integration.
+
+
 Equations (\ref{eq.disV}), (\ref{eq.line}), and (\ref{eq.area})
-are a set of ordinary differential equations that can be solved  by Runge-Kutta (RK) method.
+are a set of ordinary differential equations that can be solved  by the RK method.
 %-------------------------------%-------------------------------
-For the boundary conditions, the distribution function in  the resonant frame is assumed to be periodic in the phase angle $\xi$,
+For the boundary conditions, the values of the perturbed distribution vanish at the $\Omega$ boundaries
+and
+the distribution functions in  the resonant frame are assumed to be periodic in the  angle variable $\xi$,
 \begin{equation}
     g\left(\xi,\Omega,t\right)=g\left(\xi+2 \pi,\Omega,t\right)~.
 \end{equation}
-Note that the periodicity only valid when the resonance not deviate too far from the initial resonance frame of reference given by the most unstable frequency $\omega_l$ and corresponding wave number $k_l$.
-The values of the perturbed distribution vanish at the $\Omega$ boundaries.
+Note that the periodic boundary conditions are valid only when the resonance does not deviate too far away from the initial resonance frame of reference with the most unstable frequency $\omega_l$ and wave number $k_l$.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/Hybrid_demo.pdf}
@@ -181,7 +196,7 @@ To initially position the markers in the spatial domain, we place them on the fi
 \end{equation}
 where $v_r(s)$ is the local resonant velocity that has been predetermined from the background equilibrium parameter.
 Then the simulation time step is set as $\Delta t = T/N$ with $N$ the total number of sampling points/grids.
-Finally the initial spatial coordinates of the markers are set according to equation (\ref{eq.resonance}) gives the trajectory of the Lagrangian marker. 
+Finally, the initial spatial coordinates of the markers are set according to equation (\ref{eq.resonance}) gives the trajectory of the Lagrangian marker. 
 \begin{equation}
     s_{k+1} = s_k +  \int_{t}^{t+\Delta t} v_r(s_k(t)) \mathrm{d}t~
 \end{equation}
@@ -199,7 +214,7 @@ Utilizing this nonuniform grid, the Lagrangian markers initially positioned on t
 Thus we successively push the distribution $g_{k,l}(\xi,\Omega)$  from  $s_k$ to the next grid $s_{k+1}$ for each time interval $\Delta t$.
 After pushing the Lagrangian maker from the $n^\mathrm{th}$ to the $n+1^\mathrm{th}$ time step, the Hamiltonian  is re-calculated by  the  equilibrium quantities  at the new location of $s$ and $\mathcal{J}$, which are needed for evolving the distribution in $\xi-\Omega$ space at the next time step.
 
-To mitigate the checkboard numerical error, we also implement a uniform grid and sample Lagrangian markers on $'s'$ to validate the effectiveness of our nonuniform grid approach.
+To mitigate the check board numerical error, we also implement a uniform grid and sample Lagrangian markers on $'s'$ to validate the effectiveness of our nonuniform grid approach.
 After a given time step $\Delta t$ the markers deviated from the fixed grid, thus  we need to interpolate the distribution function and its derivatives required in the IDO scheme from the adjacent marker to the fixed $s$ grid.
 These procedures closely resemble those of the semi-Lagrangian method \cite{sonnendrucker1999,cottet2018}. Following interpolation, the markers realign with the grid, and the next iteration starts from the grid point.
 As shown in Fig.~\ref{fig.cmp1}, the wave amplitudes calculated from  the two approaches converge  as the smaller grid sizes are used for the uniform grid with interpolation.  
