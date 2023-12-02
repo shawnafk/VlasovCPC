@@ -1,24 +1,31 @@
 \section{The Hybrid Eulerian-Lagrangian Solver for the Vlasov system}
 \label{sec:vlasov}
-For the Hamiltonian formulation 
- in the reference frames moving at local resonant velocities \cite{zheng2023a},
- the evolution of  perturbed distribution function $\delta f(\vartheta,\mathcal{J};\xi,\Omega;s,t)$ is
+For the nonlinear resonant wave-particle interaction in weakly inhomogeneous magnetic field,
+the  Hamiltonian 
+ in the reference frames moving at local resonant velocities 
+can be formulated in terms of   
+the canonical variables $\xi,\Omega$ for the fast   varying
+dynamics 
+and $\vartheta,\mathcal{J}$ 
+for the slowly varying scales
+ \cite{zheng2023a}.
+ Then the evolution of  perturbed distribution function $\delta f(\vartheta,\mathcal{J};\xi,\Omega;s,t)$ for the energetic particles is
 \begin{equation}\label{eq.deltaf}
     \frac{\partial \delta f}{\partial t}+ \frac{d s}{d t} \frac{\partial \delta f}{\partial s} + \left[\delta f, H\right]_{\vartheta,\mathcal{J}} +  \left[\delta f, H\right]_{\xi,\Omega} = \mathcal{S}~,
 \end{equation}
-where the   Poisson brackets are defined as
+where $s$ is the distance along the magnetic field line and  the   Poisson brackets are defined as
 \begin{equation}
     [f,~g]_{x,y} = \frac{\partial f}{\partial x}\frac{\partial g}{\partial y}-\frac{\partial f}{\partial y}\frac{\partial g}{\partial x}~.
 \end{equation}
-Here $\xi,\Omega$ and $\vartheta,\mathcal{J}$ are the canonical variables corresponding to the fast  and slowly varying scales, respectively.
-The source term $\mathcal{S}= -\left[f_0, \delta H\right]_{\vartheta, \mathcal{J}} - \left[f_0, \delta H\right]_{\xi, \Omega}$ 
+Here 
+the source term $\mathcal{S}= -\left[f_0, \delta H\right]_{\vartheta, \mathcal{J}} - \left[f_0, \delta H\right]_{\xi, \Omega}$ 
 where $f_0$ is the equilibrium distribution function and $\delta H$ denotes the perturbed Hamiltonian due to the resonant wave-particle interactions.
 Note that the derivatives of $\delta H$ with respect to the slowly varying coordinates $\vartheta$ and $\mathcal{J}$ can be neglected due to the separation of perturbation and equilibrium scales. Besides, $\partial f_0/\partial \xi$ is vanished since $f_0$ does not generally depend on the fast varying angle coordinate $\xi$.
 Thus, the source term can be simplified as 
 \begin{equation}
      \mathcal{S} = \frac{\partial \delta H}{\partial \xi}\frac{\partial f_0}{\partial \Omega}.
 \end{equation}
-The variation of the angular coordinate $\vartheta$ is negligible, owing to the weakly inhomogeneous nature of the plasmas, while the dynamics of $\mathcal{J}, \Omega$, and $\xi$ remain entirely unaffected by $\vartheta$.
+The variation of the angular coordinate $\vartheta$ is negligible due to the weakly inhomogeneous nature of the plasmas, while the dynamics of $\mathcal{J}, \Omega$, and $\xi$ remain entirely unaffected by $\vartheta$.
 Therefore we neglect the term $ \dot{\vartheta} $ in the Vlasov equation and the  Poisson bracket becomes
 \begin{equation}
 \left[\delta f, H\right]_{\vartheta,\mathcal{J}}\simeq 
@@ -174,39 +181,41 @@ the distribution functions in  the resonant frame are assumed to be periodic in 
 \begin{equation}
     g\left(\xi,\Omega,t\right)=g\left(\xi+2 \pi,\Omega,t\right)~.
 \end{equation}
-Note that the periodic boundary conditions are valid only when the resonance does not deviate too far away from the initial resonance frame of reference with the most unstable frequency $\omega_l$ and wave number $k_l$.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.5]{cpc_img/Hybrid_demo.pdf}
-    \caption{Schematic illustration of the hybrid Vlasov simulation scheme.}
-    \label{fig.demo}
-\end{figure}
+Note that the periodic boundary conditions are valid only when the resonance does not deviate too far away from the  resonance frame of reference initially set in the simulation.
+
+
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[scale=0.5]{cpc_img/Hybrid_demo.pdf}
+%     \caption{Schematic illustration of the hybrid Vlasov simulation scheme.}
+%     \label{fig.demo}
+% \end{figure}
 
 \subsection{The Lagrangian step}
-For the Lagrangian markers,
-the sampling point for $\mathcal{J}$ is chosen to ensure  a uniform sampling to the initial equilibrium distribution $f_0$,
-\begin{equation} 
-    \mathcal{J}_l \to \int^{\mathcal{J}_l} f_0 \mathrm{d}\mathcal{J} = l/N_l~, 
-\end{equation}
-where $N_l$ is the total number of sampling points for $\mathcal{J}$. An illustration is shown in Fig. \ref{fig.uni_grid}(a).
 
-To initially position the markers in the spatial domain, we place them on the fixed grid, denoted as $s_i$, which is the same grid used for solving the wave equations. To ensure that each marker updates over an identical time step, we implement nonuniform sampling, corresponding to the nonuniform wave grid. Initially, we calculate the transit time required for a marker to traverse the entire simulation domain.
+To initially position the markers in the spatial domain, we place them on the fixed grid denoted as $s_k$.
+%, which is the same grid used for solving the wave equations. 
+To ensure that each marker updates over an identical time step, we implement nonuniform grid along the magnetic field line, as shown in Fig. \ref{fig.uni_grid}(a).
+%, corresponding to the nonuniform wave grid. 
+Initially, we calculate the transit time of a marker over the entire spatial domain,
 \begin{equation}
-    T = \int_{s_1}^{s_N} \frac{\mathrm{d}s}{v_r(s)}~
+    T = \int_{s_1}^{s_N} \frac{\mathrm{d}s}{v_r(s)}~,
 \end{equation}
 where $v_r(s)$ is the local resonant velocity that has been predetermined from the background equilibrium parameter.
 Then the simulation time step is set as $\Delta t = T/N$ with $N$ the total number of sampling points/grids.
-Finally, the initial spatial coordinates of the markers are set according to equation (\ref{eq.resonance}) gives the trajectory of the Lagrangian marker. 
+Finally, the initial spatial coordinates of the markers are set according to Eq. (\ref{eq.resonance}) which gives the trajectory of the marker,
 \begin{equation}
-    s_{k+1} = s_k +  \int_{t}^{t+\Delta t} v_r(s_k(t)) \mathrm{d}t~
+    s_{k+1} = s_k +  \int_{t}^{t+\Delta t} v_r(s_k(t)) \mathrm{d}t~,
 \end{equation}
 where $k=1,2,3,...,N$.
-The nonuniform grids with size $\Delta s$ are shown in Fig. \ref{fig.uni_grid}(b). 
+%The nonuniform grids with size $\Delta s$ are 
 Utilizing this nonuniform grid, the Lagrangian markers initially positioned on the grid advance to the next adjacent grid point after a time interval $\Delta t$.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/fig_nu_grid.pdf}
-    \caption{The nonuniform spatial grid obtained from resonance velocity. 
+    \caption{(a) Nonuniform spatial grid obtained from resonance velocity.
+    (b) Sampling point for $\mathcal{J}$.
     %Here the number of grid points $N=500$.
     }
     \label{fig.uni_grid}
@@ -214,31 +223,50 @@ Utilizing this nonuniform grid, the Lagrangian markers initially positioned on t
 Thus we successively push the distribution $g_{k,l}(\xi,\Omega)$  from  $s_k$ to the next grid $s_{k+1}$ for each time interval $\Delta t$.
 After pushing the Lagrangian maker from the $n^\mathrm{th}$ to the $n+1^\mathrm{th}$ time step, the Hamiltonian  is re-calculated by  the  equilibrium quantities  at the new location of $s$ and $\mathcal{J}$, which are needed for evolving the distribution in $\xi-\Omega$ space at the next time step.
 
-To mitigate the check board numerical error, we also implement a uniform grid and sample Lagrangian markers on $'s'$ to validate the effectiveness of our nonuniform grid approach.
+For the Lagrangian markers,
+the sampling point for $\mathcal{J}$ is chosen to ensure  a uniform sampling to the initial equilibrium distribution $f_0$,
+\begin{equation} 
+    \mathcal{J}_l \to \int^{\mathcal{J}_l} f_0 \mathrm{d}\mathcal{J} = l/N~, 
+\end{equation}
+where $N$ is the total number of sampling points for $\mathcal{J}$. An illustration is shown in Fig. \ref{fig.uni_grid}(b).
+The evolution of $\mathcal{J}$ in Eq. (\ref{eq.Lagrangian}) is simply solved by  the RK method.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{cpc_img/fig_dts1.pdf}
+    \caption{Variation of time step $\Delta t_\mathrm{adp}$ with the number of iterations for Eulerian calculation.  
+    }
+    \label{fig.adapetive}
+\end{figure}
+%Given that
+Since the evolution in the $\xi,\Omega$  phase space 
+is much 
+%occurs at a significantly 
+faster 
+%pace compared to 
+than that in the $s,\mathcal{J}$ domain, we employ a larger fixed time step $\Delta t$ for the Lagrangian calculations 
+and a much smaller adaptive time step, $\Delta t_\mathrm{adp}$, for resolving the rapidly varying dynamics in the Eulerian domain. The time steps $\Delta t_\mathrm{adp}$ are adaptively determined through real-time error analysis using the adaptive RK method and satisfy
+\begin{equation}
+    \sum_{1}^N \Delta t_\mathrm{adp} = \Delta t ~,
+\end{equation}
+where $N$ is the total number of iterations within one $\Delta t$. 
+As shown in Fig.~\ref{fig.adapetive}, 
+$\Delta t_\mathrm{adp}$ is continuously adjusted and refined, consistently reducing its value whenever the numerical error exceeds the predefined error threshold. As the system undergoes nonlinear evolution, the time step $\Delta t_\mathrm{adp}$ undergoes further refinement, automatically increasing the number of iterations within a single $\Delta t$ interval. This highlights the clear advantage of adaptive hybrid methods in significantly improving computational efficiency.
+
+
+
+%To mitigate the check board numerical error, 
+Finally, we also implement a uniform grid and sample Lagrangian markers on $s$ to validate the effectiveness of our nonuniform grid approach.
 After a given time step $\Delta t$ the markers deviated from the fixed grid, thus  we need to interpolate the distribution function and its derivatives required in the IDO scheme from the adjacent marker to the fixed $s$ grid.
-These procedures closely resemble those of the semi-Lagrangian method \cite{sonnendrucker1999,cottet2018}. Following interpolation, the markers realign with the grid, and the next iteration starts from the grid point.
+These procedures closely resemble those of the semi-Lagrangian method \cite{sonnendrucker1999,cottet2018}. Following interpolation, the markers re-align with the grid, and the next iteration starts from the grid point.
 As shown in Fig.~\ref{fig.cmp1}, the wave amplitudes calculated from  the two approaches converge  as the smaller grid sizes are used for the uniform grid with interpolation.  
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/fig_semiL.pdf}
-    \caption{Wave amplitude from semi-Lagrangian method with linear interpolation of distribution at different uniform grid sizes (dashed-line) and the nonuniform grid (solid line).
+    \caption{ (a) Wave amplitude from semi-Lagrangian method with linear interpolation of distribution at different uniform grid sizes (dashed-line) and the nonuniform grid (solid line).
+    (b) Root-mean-square error at different uniform grid sizes compared to the 
+    nonuniform grid of $N=8000$.
     }
     \label{fig.cmp1}
 \end{figure}
-The evolution of $\vartheta,\mathcal{J}$ in Eq. (\ref{eq.Lagrangian}) are simply solved by applying the RK method.
 
-
-Given that the evolution in the $\xi,\Omega$  phase space occurs at a significantly faster pace compared to that in the $s_i,\mathcal{J}$ domain, we employ a larger fixed time step $\Delta t$ for the Lagrangian calculations. Conversely, we employ a much smaller adaptive time step, $\Delta t_\mathrm{adp}$, for resolving the rapidly varying dynamics within the Eulerian domain. These $\Delta t_\mathrm{adp}$ are adaptively determined through real-time error analysis using the adaptive time step RK method, and satisfy
-\begin{equation}
-    \sum_{t=1}^T \Delta t_\mathrm{adp} = \Delta t ~.
-\end{equation}
-where $T$ is the total number of iterations within one $\Delta t$. 
-As shown in Fig.~\ref{fig.adapetive}, 
-$\Delta t_\mathrm{adp}$ is continuously adjusted and refined, consistently reducing its value whenever the numerical error exceeds the predefined error threshold. As the system undergoes nonlinear evolution, the time step $\Delta t_\mathrm{adp}$ undergoes further refinement, automatically increasing the number of iterations within a single $\Delta t$ interval. This highlights the clear advantage of adaptive hybrid methods in significantly improving computational efficiency.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.5]{cpc_img/fig_dts1.pdf}
-    \caption{The variation of time step $\Delta t_\mathrm{adp}$ with the number of iterations for Eulerian calculation.  
-    }
-    \label{fig.adapetive}
-\end{figure}

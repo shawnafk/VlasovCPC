@@ -1,95 +1,159 @@
 \section{Benchmark Results for the Onset of Rising Tone Chorus}
 \label{sec:code}
-We proceed with a series of simulations, employing our method to investigate the initiation of the whistler-mode chorus. The instability of the whistler wave typically arises from the electron temperature anisotropy instability \cite{kennel1966a,kennel1966b}, and the growth rate can be derived from the linear resonance condition near $\Omega \approx 0$.
-
-In our simulation, the energetic electron distribution is bi-Maxwellian at the magnetic equator. 
-Moving away from the magnetic equator, the equilibrium distribution maintains the similar form as it does in the phase space by conventional coordinates $(s_i, p_\|, \phi, \varphi)$. The distribution function in new canonical variables is given directly by the canonical transformation in ref \cite{zheng2023a}, and we have 
+We proceed with a series of simulations, employing our method to investigate the onset of the whistler-mode chorus
+ in the  magnetosphere. The instability of the whistler wave typically arises from the electron temperature anisotropy  \cite{kennel1966a,kennel1966b} and the growth rate can be derived from the linear resonance condition.
+ % near $\Omega \approx 0$.
+In our simulation, the energetic electron distribution is bi-Maxwellian at the magnetic equator, 
+%Moving away from the magnetic equator, the equilibrium distribution maintains the similar form as it does in the phase space by conventional coordinates $(s_i, p_\|, \phi, \varphi)$. The distribution function in new canonical variables is given directly by the canonical transformation in ref \cite{zheng2023a}, and we have 
 \begin{equation}
     \begin{aligned}
-        & f_{0}(\Omega, \mathcal{J}) =\frac{\omega_{c e 0}}{(2 \pi)^{3 / 2} v_{t h \perp 0}^2 v_{t h \| 0}} \frac{1}{1-\beta} \cdot \exp \left(-\frac{k_l^2(\Omega+\Pi_i)^2}{2 v_{t h \| 0}^2}\right) \\
-        &\cdot\left(\exp \left(-\frac{(\mathcal{J}+\Omega+\Pi_i) \omega_{c e 0}}{v_{t h \perp 0}^2}\right)-\exp \left(-\frac{(\mathcal{J}+\Omega+\Pi_i) \omega_{c e 0}}{\beta v_{t h \perp 0}^2}\right)\right)~,
+        & f_{0}(\Omega, \mathcal{J}) =\frac{\omega_{c e 0}}{(2 \pi)^{3 / 2} v_{ \perp 0}^2 v_{ \| 0}} \cdot \exp \left(-\frac{k_l^2(\Omega+\Pi_i)^2}{2 v_{ \| 0}^2}\right) \\
+        &\cdot\exp \left(-\frac{(\mathcal{J}+\Omega+\Pi_i) \omega_{c e 0}}{v_{ \perp 0}^2}\right)~,
         \end{aligned}
 \end{equation}
-where $\beta$ is the depth of the loss cone, the subscript $0$ denotes the magnetic equator.
-
-As a realistic model for the magnetosphere, the magnetic field can be approximated as a dipole field, and the major component of the background magnetic field near the equator can be approximately represented by a parabolic function \cite{tao_numerical_2014}
+where $v_{ \| 0}$
+and $v_{ \perp 0}$ are the
+%$\beta$ is the depth of the loss cone 
+parallel and perpendicular thermal velocity of energetic electrons,
+and 
+the subscript $0$ denotes the magnetic equator.
+%As a realistic model for, The Earth's magnetic field can be approximated as a dipole field and 
+%the major component of 
+The background magnetic field strength near the equator is approximated %represented
+ by a parabolic function \cite{tao2014a}
 \begin{equation}
-    B(\lambda) = B_0(1+ R_a \lambda ^2)~,
+    B(\lambda) = B_0 (1+ R_a \lambda ^2)~,
 \end{equation}
-where $R_a$ is the inhomogeneity ratio of the magnetic field, $B_0$ is the magnetic field strength at the equator, and $\lambda$ is the magnetic latitude. The distance alone the magnetic field line $s$ satisfies $s = L R_E \lambda$.
-The background electron density is found to fit a power law form \cite{denton2004},
+where $R_a$ is the inhomogeneity parameter of the magnetic dipole field, $B_0$ is the magnetic field strength at the equator, and $\lambda$ is the magnetic latitude. %The distance  satisfies $s = L R_E \lambda$.
+For the dipole field, 
+%the magnetic strength decays as the cube of the radius increases, i.e.,
+%\begin{equation}
+ $   B_0 = B_{0g}/L^3$
+%\end{equation}
+where $B_{0g}\approx $0.3 G is the magnetic field of the Earth  at the equator 
+%on the  surface of Earth 
+and $L$ is the L-shell of the magnetic field line.
+The background electron density along the magnetic field line  is  fit to a power law \cite{denton2004},
 \begin{equation}
-    n(\lambda) = n_0 (1+R_b \lambda^2)~
+    n(\lambda) = n_0 (1+R_b \lambda^2)~,
 \end{equation}
-where $R_b$ is a fitting parameter in an order of one.
+where $R_b$ represents the 
+background cold plasma density inhomogeneity.
+For the normalization in the simulation, 
+ we use electron mass $m_e$, electron charge $e$, speed of light $c$ and background electron plasma frequency at the magnetic equator $\omega_{pe0}$ to normalize mass, charge, velocity and frequency.
+Then the  units for the other quantities can be derived. 
+For example,
+the length $s $ is normalized to $ c/\omega_{pe0}$
+and 
+ the vector potential $A$ to $m_e c^2/e$.
 
+
+
+
+   \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.5]{cpc_img/fig_profile.pdf}
+        \caption{(a) Background magnetic field and density profile. (b) Resonant and linear group velocity profile along the magnetic field line.}
+        \label{fig.profile}
+    \end{figure}
 \subsection{Simulation configuration}
-In conventional PIC simulations, the inhomogeneity ratio $R_a$ was often enlarged by one or two order of magnitudes to reduce the simulation cost.
-However, one of the advantages of our numerical scheme is that we can use realistic parameters for the Earth's dipole field.
-The basic parameters of our simulation are given in Tab. (\ref{tab.parameters}).
+
 \begin{table}\label{tab.parameters}
     \centering
     \caption{Magnetic field and plasma parameters used in the simulation.\newline}
     \begin{tabular}{lc}
     \hline
      L-shell of the magnetic field line  & 5 \\
-     Magnetic field inhomogeneity ratio $R_a$ &  4.5 \\
-     Background cold plasma density inhomogeneity ratio $R_b$ &  1.0 \\
-     Background electron gyro frequency and plasma frequency & \makecell{ $\omega_{ce} = 0.2$\\$\omega_{pe} = 1$  }\\
-     Density ratio between energetic and cold  electrons at the magnetic equator &  0.002 \\
-     Parallel and perpendicular thermal velocity of energetic electrons & \makecell{$v_\perp = 0.3 c$\\ $v_\| = 0.15c$}  \\
-    Depth of the loss cone $\beta$ & 0 \\
-    Size of the simulation domain  & \makecell{$\lambda \in [-15^\circ, 15^\circ]$ \\ $s \in [-6115,6115] c/\omega_{pe}$} \\
+     Magnetic field inhomogeneity  $R_a$ &  4.5 \\
+     Background cold plasma density inhomogeneity  $R_b$ &  1.0 \\
+     Background electron gyrofrequency and plasma frequency at the equator & \makecell{ $\omega_{ce0} = 43929.6~\mathrm{rad/s}$\\$\omega_{pe0} = 5 \omega_{ce0}$  }\\
+     Ratio of energetic to cold  electron density at the  equator &  $n_{h0} = 0.002$ \\ 
+     Parallel and perpendicular thermal velocity of energetic electrons & \makecell{$v_{\perp 0} = 0.3 c$\\ $v_{\|0} = 0.15c$}  \\
+    %Depth of the loss cone $\beta$ & 0 \\
+    Size of the simulation domain  & \makecell{$\lambda \in [-15^\circ, 15^\circ]$ \\ $s \in [-6115,6115] c/\omega_{pe0}$} \\
     \hline
     \end{tabular}\\
     \end{table}
 %(useless) Note that, since we apply the electron plasma frequency $\omega_{pe0}$ at the equator for time normalization, the value always be 1 desites the L-shell value, which gyrofrequency is dynamcally changes.
-The profile of the background parameter is shown in Fig. \ref{fig.profile}.
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[scale=0.5]{cpc_img/fig_profile.pdf}
-        \caption{(a) Background magnetic field and density profile. (b) Characterastic velocity in our simulation.}
-        \label{fig.profile}
-    \end{figure}
-Meanwhile, we show the most unstable wave frequency applied in the simulation for the determination of initial reference frame. According to the choosen parameter in Tab. (\ref{tab.parameters}) and the definition of growth rate  $\gamma_l$ at the equator
+ 
+In conventional PIC simulations, the inhomogeneity ratio $R_a$ is often increased by one or two order of magnitudes to reduce the simulation cost.
+%In contrast,
+%However, one of the advantages of 
+% is that we can
+Benefiting from the scale-separated HEL  scheme,
+ the realistic parameters for the Earth's dipole field
+can be used in our numerical simulation.
+The basic parameters 
+of our simulation 
+are given in Table (\ref{tab.parameters})
+and the profiles of the background parameter are shown in Fig. \ref{fig.profile}.
+%Meanwhile, 
+The most unstable wave frequency $\omega_l$ used in the simulation 
+%for the %determination of initial reference frame
+% According to the choosen parameter in Tab. (\ref{tab.parameters}) and the definition of
+ is determined from the linear growth rate  $\gamma_l$ \cite{gary_1993},
 \begin{equation}
 \begin{aligned}
-    \gamma_l(s) & =\frac{\sqrt{2 \pi} \omega_{c e} v_g \omega_{h 0}^2}{4 k_l^2 v_{t h \| 0}} e^{-\frac{\left(\omega_l-\omega_{c e}\right)^2}{2 k_l^2 v_{t h \| 0}}}
-    \cdot \left((1+\beta) \frac{T_{\perp 0}}{T_{\| 0}} \frac{\omega_{c e 0}-\omega_l}{\omega_{c e 0}}-1\right)
+    \gamma_l(s) & =\frac{\sqrt{2 \pi} \omega_{ce} v_g n_{h0} \omega_{pe0}^2}{4 k_l^2 v_{ \| 0}} e^{-\frac{\left(\omega_l-\omega_{c e}\right)^2}{2 k_l^2 v_{ \| 0}}}
+    \cdot \left( \frac{T_{\perp 0}}{T_{\| 0}} \frac{\omega_{c e 0}-\omega_l}{\omega_{c e 0}}-1\right)~,
     \end{aligned}
 \end{equation}
-The most unstable frequency is $\omega_l = 0.061$ and the corresponding growth rate is $\gamma_l \simeq 3.24\times 10^{-4}$, as shown by a scan of the parameter given in Fig.~\ref{fig.para}.
+where 
+ $n_{h0}$ is the density ratio of the energetic electrons to the background cold plasma at the magnetic equator,
+the wave number $k_l$ satisfies the linear whistler disperison relation
+\begin{equation}
+    \frac{c^2 k_l^2(s)}{\omega_l^2} = 1 + \frac{\omega_{pe}^2(s)}{\omega_l(\omega_{ce}(s)-\omega_l)},
+\end{equation}
+and $v_g$ is the linear whistler group velocity,
+\begin{equation}
+    v_g(s) = \frac{2k_l(s)c^2 }{2\omega_l + \omega_{pe}^2(s)\omega_{ce}(s)/(\omega_{ce}(s)-\omega_l)^2}~.
+\end{equation}
+The temperature is given by the thermal velocity shown in Tab. (\ref{tab.parameters}).
+For the  parameters in Tab. (\ref{tab.parameters}), 
+the most unstable 
+growth rate is $\gamma_l \simeq 3.24\times 10^{-4}$
+and the corresponding 
+frequency is $\omega_l = 0.061$, as shown by a scan of the parameter given in Fig.~\ref{fig.para}.
+For the typical runs, we set the number of grids for wave solver to be 1001
+which is equal to  the number of sampling points in $s$.
+In the $\mathcal{J}$ dimension, we employ a delta function with only a single sampling point for $\mathcal{J}$. In the case of a non-delta distribution, tens of sampling points prove to be sufficient for $\mathcal{J}$ sampling.
+For the $\xi,\Omega$ domain, the Eulerian grids are $31 \times 401$ for $\xi \in [0,2\pi]$ and $\Omega \in [-0.1,0.1]$.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/fig_gamma1d.pdf}
-    \caption{Linear growth rate $\gamma$ with respect to $\omega$ in the chosen parameter. The initial frequency of the wave is obtained from the most unstable frequency indicated by the vertical black line.}
+    \caption{Linear growth rate $\gamma_l$ with respect to $\omega_l$ for the simulation parameters. The initial frequency of the wave is obtained from the most unstable frequency indicated by the vertical black line.}
     \label{fig.para}
 \end{figure}
 
-Benefiting from the scale-separated numerical scheme we set the number of grids for wave solver to 1001, aligning it with the number of sampling points in $s$.
-In the $\mathcal{J}$ dimension, we employ a delta function, necessitating only a single sampling point for $\mathcal{J}$. In the case of a non-delta distribution, tens of sampling points prove sufficient for $\mathcal{J}$ sampling.
-As to the $\xi,\Omega$ domain, the Eulerian grids are $31 \times 401$ for $\xi \in [0,2\pi]$ and $\Omega \in [-0.1,0.1]$.
-
-The wave is resolved within a reduced-dimensional space, leading to a relatively manageable workload, as is the case with the Lagrangian solver. However, the bottleneck occurs within the Eulerian solver, primarily due to its two-dimensional space, necessitating hundreds of iterations for a single Lagrangian time step for all markers. Nonetheless, the computational cost remains reasonable in comparison to conventional PIC simulations, where the number of sampling points is at least several orders of magnitude greater than in our method. Consequently, their simulations require several billion particles \cite{nogi2022,katoh2016}, but the phase space resolution is significantly lower than ours.
-
 \subsection{Benchmarks results}
-The linear physics are quantitatively verified in Fig. \ref{fig.linear}, where we calculate the growth rate and the velocity of the maximum wave amplitude location before nonlinear effects become dominant. In the case of the propagating wave, we determine the trajectory of the wave packet using the integral of the group velocity,
+The linear physics are quantitatively verified in Fig. \ref{fig.linear}, where we calculate the growth rate and the velocity of the maximum wave amplitude location before nonlinear effects become dominant.
+ %In the case of the  wave packet, we determine
+  The trajectory of the propagating wave packet is determined theoretically using the integral of the linear group velocity,
 \begin{equation}
     s(t) = s(0) + \int_0^{t} v_g(s(\tau)) \mathrm{d} \tau~.
 \end{equation}
-Here we trace the movement of the maximum amplitude point. Its propagation is in accord with the linear group velocity, as shown in Fig. \ref{fig.linear}(a). 
-For the wave peak, it indeed propagates in the linear group velocity during the linear stage.
-Moreover, we estimate the amplitude growth of the wave peak along its propagation path, the growth rate is given by \cite{nogi2022}
+For the simulation,
+ we track the movement of the maximum amplitude point. 
+%Its propagation is in accord with the linear group velocity, 
+ As shown in Fig. \ref{fig.linear}(a), 
+ the wave peak indeed propagates at the linear group velocity during the linear stage.
+ The 
+ amplitude growth of the wave peak along its propagation path
+%growth of the wave peak  along the propatation path 
+is shown in Fig. \ref{fig.linear}(b)
+and 
+%Moreover, we  
+ the growth rate is estimated by \cite{nogi2022}
 \begin{equation}\label{eq.gm_ver}
-        \Gamma = \frac{1}{t_1-t_0}\log\frac{|a(s_1,t_1)|}{|a(s_0,t_0)|}~,
+        \gamma = \frac{1}{t_1-t_0}\log\frac{|a(s_1,t_1)|}{|a(s_0,t_0)|}~,
 \end{equation}
-where $s_0,t_0$, $s_1,t_1$ are along the prppagation path.
-The growth of the amplitude along the propatation path is shown in Fig. \ref{fig.linear}(b). The corresponding growth rate from equation (\ref{eq.gm_ver}) is $\Gamma_0 \simeq 3.21\times10^{-4}$, agrees well with the theoretic linear growth rate shown in Fig. \ref{fig.para}.
-The results show the correctness of our simulation at linear stage.
+where $s_0$ and $s_1$ are the points along the propagation path.
+The  growth rate calculated from Eq. (\ref{eq.gm_ver}) is $\gamma \simeq 3.21\times10^{-4}$, which agrees with the theoretical linear growth rate shown in Fig. \ref{fig.para}.
+%The results show the correctness of our simulation at linear stage.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{cpc_img/fig_linear.pdf}
-    \caption{Figure (a) is the propagation velocity of the linear wave packet with the maximum amplitude. Figure (b) denotes the growth of the wave peak amplitude with time along wave propagation path. The green cross marks the point used to caluclate the growth rate.}
+    \caption{ (a) Propagation trajectory of the linear wave packet with the maximum amplitude from the simulation (dashed line) and theory (solid line).  (b)  Growth of the wave peak amplitude with time along wave propagation path. The green crosses are the points used to caluclate the growth rate.}
     \label{fig.linear}
 \end{figure}
 
