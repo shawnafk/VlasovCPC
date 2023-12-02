@@ -1,0 +1,60 @@
+\documentclass[times,12pt,3p,longtitle]{elsarticle}
+\usepackage{makecell}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\usepackage{amssymb}
+\usepackage{latexsym}
+%\journal{Journal of Computational Physics}
+\usepackage{amsmath}
+\begin{document}
+\begin{frontmatter}
+\title{A hybrid Eulerian-Lagrangian Vlasov method for nonlinear wave-particle interaction in weakly inhomogeneous magnetic field}
+\author[1]{Jiangshan Zheng}
+\author[2,3]{Ge Wang}
+\author[1]{Bo Li}
+\ead{plasma@buaa.edu.cn}
+
+\address[1]{School of Physics, Beihang University, Beijing, Beijing 100191, China}
+\address[2]{Institute for Fusion Studies, University of Texas at Austin, Austin, Texas, 78712, USA}
+\address[3]{Center for Plasma Theory and Computation, University of Wisconsin at Madison, Madison, Wisconsin 53706, USA}
+\begin{abstract}
+  We present a hybrid Eulerian-Lagrangian Vlasov solver for nonlinear resonant wave-particle interactions problems in weakly inhomogeneous magnetic field.
+  The governing Vlasov equation is derived from a recently proposed resonance tracking Hamiltonian method. 
+  The method tracks the dynamics of deeply trapped resonant particles in a coherent wave. 
+  It gives the evolution of the distribution function with a scale separated Hamiltonian that containing the slowly-varying motion about the resonant frame of reference and fast-varying coherent interactions.
+  The hybrid method solves the slowly-varying phase space dynamics by Lagrangian method along the resonant trajectory, while simultaneously manages the fast-varying phase-space evolution in Eulerian grid with an adaptive time step interpolated differential operator scheme.
+  We apply our method to study the frequency chirping problem of whistler mode chorus wave in the Earth magnetosphere and successfully reproduce the chirping chorus wave. 
+  The results in well agree with previous research. 
+  With a focus on nonlinear resonant wave-particle interaction in the weakly inhomogeneous regime, our approach can give high resolution for the fast varying phase space at low computational cost.  
+  It could provide additional insights of the wave instabilities and particle energy transfer compared to the conventional Vlasov and particle-in-cell methods.
+\end{abstract}
+\end{frontmatter}
+
+\clearpage
+
+\input{cpc/intro}
+
+\input{cpc/vlasov}
+
+\input{cpc/wave}
+
+\input{cpc/code}
+
+\input{cpc/conclude}
+
+\section*{Acknowledgement}
+    The work was inspired by H.L. Berk during Ge Wang worked with him at the University of Texas.
+   % As Herb's former Ph.D student and a long-time collaborator, Ge witnessed Herb's kindness, diligence, and persistence. Thank you, Herb.
+    This work was supported by the National Natural Science Foundation of China under Grant No.~12275013.
+
+\bibliographystyle{model1-num-names}
+\bibliography{nonlinear_cpc}
+
+\end{document}
